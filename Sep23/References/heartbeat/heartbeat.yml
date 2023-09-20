@@ -21,6 +21,38 @@ heartbeat.config.monitors:
 
 # Configure monitors inline
 heartbeat.monitors:
+- type: icmp
+  id: webserver-ping
+  name: webserverping
+  enabled: true
+  schedule: '@every 10s'
+  hosts:
+    - "172.31.30.137"
+- type: icmp
+  id: dbserver-ping
+  name: dbserverping
+  enabled: true
+  schedule: '@every 10s'
+  hosts:
+    - "172.31.25.150"
+- type: http
+  enabled: true
+  id: webapp-ping
+  name: webapp-ping
+  hosts:
+    - http://172.31.30.137
+  check.request.method: HEAD
+  check.response.status: 
+    - 200
+  schedule: '@every 10s'
+- type: tcp
+  enabled: true
+  id: db-services
+  name: database service
+  hosts: ["172.31.25.150"]
+  ports: [3306]
+  schedule: '@every 10s'
+
 - type: http
   # Set enabled to true (or delete the following line) to enable this monitor
   enabled: false
